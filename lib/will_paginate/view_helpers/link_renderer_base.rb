@@ -54,12 +54,15 @@ module WillPaginate
           left = 1...middle.first
         end
 
-        # right window
-        if total_pages - outer_window - 2 > middle.last # again, gap
-          right = ((total_pages - outer_window)..total_pages).to_a
-          right.unshift :gap
-        else # runs into visible pages
-          right = (middle.last + 1)..total_pages
+        right = nil
+        if @options[:right_window] != false
+           # right window
+           if total_pages - outer_window - 2 > middle.last # again, gap
+              right = ((total_pages - outer_window)..total_pages).to_a
+              right.unshift :gap
+           else # runs into visible pages
+              right = (middle.last + 1)..total_pages
+           end
         end
         
         left.to_a + middle.to_a + right.to_a
